@@ -25,11 +25,9 @@ class AppTheme {
       colorScheme: const ColorScheme.light(
         primary: primaryLight,
         secondary: secondaryLight,
-        background: backgroundLight,
         surface: surfaceLight,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
-        onBackground: textDark,
         onSurface: textDark,
       ),
       scaffoldBackgroundColor: backgroundLight,
@@ -98,11 +96,9 @@ class AppTheme {
       colorScheme: const ColorScheme.dark(
         primary: primaryDark,
         secondary: secondaryDark,
-        background: backgroundDark,
         surface: surfaceDark,
         onPrimary: Colors.white,
         onSecondary: Colors.black,
-        onBackground: textDarkOnLight,
         onSurface: textDarkOnLight,
       ),
       scaffoldBackgroundColor: backgroundDark,

@@ -6,7 +6,10 @@ class MealApiService {
   static const String _baseUrl = 'https://www.themealdb.com/api/json/v1/1';
 
   Future<List<dynamic>> getCategories() async {
+        log('Fetching categories from API... service layer');
+
     final response = await http.get(Uri.parse('$_baseUrl/categories.php'));
+    log('response status code: ${response.statusCode}');
     if (response.statusCode == 200) {
       log(  'Categories API response: ${response.body}');
       final data = json.decode(response.body);

@@ -63,4 +63,11 @@ class Meal {
       ingredients: ingredientsList,
     );
   }
+    Map<String, dynamic> toJson() {
+    return {
+      'idMeal': id,
+      'strMeal': name,
+      'strMealThumb': thumbUrl,
+    };
+  }
 }

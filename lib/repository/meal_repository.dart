@@ -1,15 +1,21 @@
 
 
+import 'dart:developer';
+
+import 'package:recipe_explorer/data/datasource/local/favorites_localdatasource.dart';
 import 'package:recipe_explorer/models/category_model.dart';
 import 'package:recipe_explorer/models/meal_model.dart';
 import 'package:recipe_explorer/service/meal_apiservice.dart';
 
 class MealRepository {
   final MealApiService _apiService;
+  final FavoriteLocalDataSource localDataSource =
+      FavoriteLocalDataSource();
 
   MealRepository(this._apiService);
 
   Future<List<MealCategory>> fetchCategories() async {
+    log('Fetching categories from API... repository layer');
     final rawCategories = await _apiService.getCategories();
     return rawCategories.map((json) => MealCategory.fromJson(json)).toList();
   }
@@ -39,4 +45,18 @@ class MealRepository {
     }
     return null;
   }
+
+  Future<void> saveFavorites(
+  List<Meal> meals,
+) async {
+
+  await localDataSource
+      .saveFavorites(meals);
+}
+
+Future<List<Meal>> getFavorites() async {
+
+  return await localDataSource
+      .getFavorites();
+}
 }
