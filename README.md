@@ -207,3 +207,10 @@ Detailed meal screen includes:
 - Riverpod
 - MVVM Architecture
 
+Release APK Link:https://drive.google.com/file/d/1H2uMXAo8ZbnIFl3RMTrTRZX5udhiAJad/view?usp=share_link<img width="738" height="1600" alt="WhatsApp Image 2026-05-23 at 14 35 18" src="https://github.com/user-attachments/assets/f2f88cd0-4f9f-4efd-9975-919560ea7638" />
+<img width="738" height="1600" alt="WhatsApp Image 2026-05-23 at 14 35 17" src="https://github.com/user-attachments/assets/f80cc667-2b62-420a-ba30-045cce8f0950" />
+<img width="738" height="1600" alt="WhatsApp Image 2026-05-23 at 14 35 17 (1)" src="https://github.com/user-attachments/assets/e835df62-4ca5-4a4f-b066-a1f421302dfa" />
+<img width="738" height="1600" alt="WhatsApp Image 2026-05-23 at 14 35 16" src="https://github.com/user-attachments/assets/894ac37d-cb8d-4b3e-a344-c582df2e03b8" />
+<img width="738" height="1600" alt="WhatsApp Image 2026-05-23 at 14 35 16 (1)" src="https://github.com/user-attachments/assets/5b677ae3-dee1-4bdf-a9ac-1b0f777c1062" />
+
+
