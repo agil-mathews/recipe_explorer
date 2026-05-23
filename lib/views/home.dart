@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_explorer/viewmodel/home_viewmodel.dart';
 import 'package:recipe_explorer/views/search.dart';
 import 'package:recipe_explorer/views/widgets/categorycard.dart';
+import 'package:recipe_explorer/views/widgets/errorview.dart';
+import 'package:recipe_explorer/views/widgets/loading%20indicator.dart';
 import 'package:recipe_explorer/views/widgets/mealcard.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -84,93 +86,48 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-
-              /// CATEGORY LIST
-              // SliverToBoxAdapter(
-              //   child: SizedBox(
-              //     height: 60,
-              //     child: categoriesAsync.when(
-              //       data: (categories) {
-              //         return ListView.builder(
-              //           scrollDirection: Axis.horizontal,
-              //           padding: const EdgeInsets.symmetric(horizontal: 16),
-              //           itemCount: categories.length,
-              //           itemBuilder: (context, index) {
-              //             final category = categories[index];
-
-              //             final isSelected = selectedCategory == category.name;
-
-              //             return Padding(
-              //               padding: const EdgeInsets.only(right: 12),
-              //               child: ChoiceChip(
-              //                 label: Text(category.name),
-              //                 selected: isSelected,
-              //                 onSelected: (_) {
-              //                   ref
-              //                           .read(selectedCategoryProvider.notifier)
-              //                           .state =
-              //                       category.name;
-              //                 },
-              //                 selectedColor: Colors.deepOrange,
-              //                 backgroundColor: Colors.orange.shade50,
-              //                 labelStyle: TextStyle(
-              //                   color: isSelected
-              //                       ? Colors.white
-              //                       : Colors.brown.shade700,
-              //                   fontWeight: FontWeight.bold,
-              //                 ),
-              //                 shape: RoundedRectangleBorder(
-              //                   borderRadius: BorderRadius.circular(30),
-              //                 ),
-              //               ),
-              //             );
-              //           },
-              //         );
-              //       },
-              //       loading: () =>
-              //           const Center(child: CircularProgressIndicator()),
-              //       error: (e, _) => Center(child: Text(e.toString())),
-              //     ),
-              //   ),
-              // ),
               SliverToBoxAdapter(
-  child: SizedBox(
-    height: 110,
-    child: categoriesAsync.when(
-      data: (categories) {
-        return ListView.builder(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            final category = categories[index];
-            final isSelected =
-                selectedCategory == category.name;
+                child: SizedBox(
+                  height: 110,
+                  child: categoriesAsync.when(
+                    data: (categories) {
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: categories.length,
+                        itemBuilder: (context, index) {
+                          final category = categories[index];
+                          final isSelected = selectedCategory == category.name;
 
-            return GestureDetector(
-              onTap: () {
-                ref
-                    .read(selectedCategoryProvider.notifier)
-                    .state = category.name;
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 12),
-                child: CategoryCard(
-                  name: category.name,
-                  imageUrl: category.thumbnail, // IMPORTANT
-                  isSelected: isSelected,
+                          return GestureDetector(
+                            onTap: () {
+                              ref
+                                      .read(selectedCategoryProvider.notifier)
+                                      .state =
+                                  category.name;
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: CategoryCard(
+                                name: category.name,
+                                imageUrl: category.thumbnail, // IMPORTANT
+                                isSelected: isSelected,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    loading: () => const LoadingView(message: "Loading..."),
+                    error: (e, _) => ErrorView(
+                      message: e.toString(),
+                      onRetry: () {
+                        ref.refresh(categoriesProvider);
+                      },
+                    ),
+                  ),
                 ),
               ),
-            );
-          },
-        );
-      },
-      loading: () =>
-          const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text(e.toString())),
-    ),
-  ),
-),
 
               /// TITLE
               SliverToBoxAdapter(
@@ -186,13 +143,13 @@ class HomeScreen extends ConsumerWidget {
                           color: Colors.brown.shade900,
                         ),
                       ),
-                      Text(
-                        'View all',
-                        style: TextStyle(
-                          color: Colors.deepOrange,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      // Text(
+                      //   'View all',
+                      //   style: TextStyle(
+                      //     color: Colors.deepOrange,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -220,13 +177,21 @@ class HomeScreen extends ConsumerWidget {
                   );
                 },
                 loading: () => const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.all(40),
-                    child: Center(child: CircularProgressIndicator()),
+                  child: SizedBox(
+                    height: 300,
+                    child: LoadingView(message: "Loading..."),
                   ),
                 ),
                 error: (e, _) => SliverToBoxAdapter(
-                  child: Center(child: Text(e.toString())),
+                  child: SizedBox(
+                    height: 300,
+                    child: ErrorView(
+                      message: e.toString(),
+                      onRetry: () {
+                        ref.refresh(mealsByCategoryProvider);
+                      },
+                    ),
+                  ),
                 ),
               ),
 

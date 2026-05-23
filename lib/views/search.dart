@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_explorer/viewmodel/search_provider.dart';
+import 'package:recipe_explorer/views/widgets/errorview.dart';
+import 'package:recipe_explorer/views/widgets/loading%20indicator.dart';
 import 'package:recipe_explorer/views/widgets/mealcard.dart';
-
 
 class SearchPage extends ConsumerWidget {
   const SearchPage({super.key});
@@ -38,24 +39,26 @@ class SearchPage extends ConsumerWidget {
               child: searchState.when(
                 data: (meals) {
                   if (meals.isEmpty) {
-                    return const Center(
-                      child: Text("No results found"),
-                    );
+                    return const Center(child: Text("No results found"));
                   }
 
                   return ListView.separated(
                     itemCount: meals.length,
-                      separatorBuilder: (context, index) => const SizedBox(height: 12),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 12),
 
                     itemBuilder: (context, index) {
                       return MealCard(meal: meals[index]);
                     },
                   );
                 },
-                loading: () =>
-                    const Center(child: CircularProgressIndicator()),
-                error: (e, _) =>
-                    Center(child: Text("Error: ${e.toString()}")),
+                loading: () => const LoadingView(message: "Searching meals..."),
+                error: (e, _) => ErrorView(
+                  message: e.toString(),
+                  onRetry: () {
+                    ref.refresh(searchMealsProvider);
+                  },
+                ),
               ),
             ),
           ],

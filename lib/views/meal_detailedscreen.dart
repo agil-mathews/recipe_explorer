@@ -3,11 +3,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_explorer/models/meal_model.dart';
 import 'package:recipe_explorer/viewmodel/favourites_provider.dart';
 import 'package:recipe_explorer/viewmodel/meal_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RecipeDetailScreen extends ConsumerWidget {
   final String mealId;
 
   const RecipeDetailScreen({super.key, required this.mealId});
+
+Future<void> launchYoutube(String url) async {
+  final uri = Uri.parse(url);
+
+  try {
+    await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    );
+  } catch (e) {
+    throw Exception('Could not launch video');
+  }
+}
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -162,6 +176,39 @@ class RecipeDetailScreen extends ConsumerWidget {
                       ),
 
                       const SizedBox(height: 40),
+
+/// YOUTUBE BUTTON
+SizedBox(
+  width: double.infinity,
+  height: 55,
+  child: ElevatedButton.icon(
+    onPressed: () async {
+  await launchYoutube(meal.youtubeUrl!);
+},
+
+    icon: const Icon(Icons.play_circle_fill),
+
+    label: const Text(
+      "Watch Recipe Video",
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.red,
+
+      foregroundColor: Colors.white,
+
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+    ),
+  ),
+),
+
+const SizedBox(height: 40),
                     ],
                   ),
                 ),

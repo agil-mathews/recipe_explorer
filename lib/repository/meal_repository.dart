@@ -1,5 +1,3 @@
-
-
 import 'dart:developer';
 
 import 'package:recipe_explorer/data/datasource/local/favorites_localdatasource.dart';
@@ -10,8 +8,7 @@ import 'package:recipe_explorer/service/meal_apiservice.dart';
 
 class MealRepository {
   final MealApiService _apiService;
-  final FavoriteLocalDataSource localDataSource =
-      FavoriteLocalDataSource();
+  final FavoriteLocalDataSource localDataSource = FavoriteLocalDataSource();
 
   MealRepository(this._apiService);
 
@@ -26,45 +23,17 @@ class MealRepository {
     return rawMeals.map((json) => Meal.fromJson(json)).toList();
   }
 
-  // Future<List<Meal>> searchMeals(String query) async {
-  //   final rawMeals = await _apiService.searchMeals(query);
-  //   return rawMeals.map((json) => Meal.fromJson(json)).toList();
-  // }
+  Future<MealDetail> getMealDetail(String id) async {
+    final response = await _apiService.getMealDetail(id);
 
+    return MealDetail.fromJson(response);
+  }
 
+  Future<void> saveFavorites(List<Meal> meals) async {
+    await localDataSource.saveFavorites(meals);
+  }
 
-  Future<MealDetail> getMealDetail(
-  String id,
-) async {
-
-  final response =
-      await _apiService
-          .getMealDetail(id);
-
-  return MealDetail.fromJson(
-    response,
-  );
-}
-
-  // Future<Meal?> fetchRandomMeal() async {
-  //   final rawMeal = await _apiService.getRandomMeal();
-  //   if (rawMeal != null) {
-  //     return Meal.fromJson(rawMeal);
-  //   }
-  //   return null;
-  // }
-
-  Future<void> saveFavorites(
-  List<Meal> meals,
-) async {
-
-  await localDataSource
-      .saveFavorites(meals);
-}
-
-Future<List<Meal>> getFavorites() async {
-
-  return await localDataSource
-      .getFavorites();
-}
+  Future<List<Meal>> getFavorites() async {
+    return await localDataSource.getFavorites();
+  }
 }
