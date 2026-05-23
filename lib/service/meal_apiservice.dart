@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:recipe_explorer/models/meal_model.dart';
 
 class MealApiService {
   static const String _baseUrl = 'https://www.themealdb.com/api/json/v1/1';
@@ -42,6 +43,28 @@ class MealApiService {
     }
 
     throw Exception('Failed to load meal detail');
+  }
+
+
+//search meals
+ Future<List<Meal>> searchMeals(String query) async {
+    final url = Uri.parse("$_baseUrl/search.php?s=$query");
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+
+      if (data["meals"] == null) {
+        return [];
+      }
+
+      final List meals = data["meals"];
+
+      return meals.map((e) => Meal.fromJson(e)).toList();
+    } else {
+      throw Exception("Failed to load meals");
+    }
   }
 
   // Future<List<dynamic>> searchMeals(String query) async {

@@ -1,15 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_explorer/viewmodel/search_provider.dart';
+import 'package:recipe_explorer/views/widgets/mealcard.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+
+class SearchPage extends ConsumerWidget {
+  const SearchPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final searchState = ref.watch(searchMealsProvider);
+
     return Scaffold(
-      body: Center(
-        child: Text(
-          'Search Screen',
-          style: Theme.of(context).textTheme.displayMedium,
+      appBar: AppBar(title: const Text("Search Meals")),
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          children: [
+            // 🔍 Search Bar
+            TextField(
+              onChanged: (value) {
+                ref.read(searchMealsProvider.notifier).search(value);
+              },
+              decoration: InputDecoration(
+                hintText: "Search meal name...",
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            // 📋 Results
+            Expanded(
+              child: searchState.when(
+                data: (meals) {
+                  if (meals.isEmpty) {
+                    return const Center(
+                      child: Text("No results found"),
+                    );
+                  }
+
+                  return ListView.separated(
+                    itemCount: meals.length,
+                      separatorBuilder: (context, index) => const SizedBox(height: 12),
+
+                    itemBuilder: (context, index) {
+                      return MealCard(meal: meals[index]);
+                    },
+                  );
+                },
+                loading: () =>
+                    const Center(child: CircularProgressIndicator()),
+                error: (e, _) =>
+                    Center(child: Text("Error: ${e.toString()}")),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -16,7 +16,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   final List<Widget> _screens = const [
     HomeScreen(),
-    SearchScreen(),
+    // SearchPage(),
     FavoritesScreen(),
   ];
 
@@ -64,18 +64,18 @@ class _MainNavigationState extends State<MainNavigation> {
               ),
               label: 'Home',
             ),
-            NavigationDestination(
-              icon: Icon(
-                Icons.search_rounded, 
-                color: theme.colorScheme.onSurface.withOpacity(0.5)
-              ),
-              selectedIcon: Icon(
-                Icons.search_rounded, 
-                color: theme.colorScheme.primary,
-                size: 26,
-              ),
-              label: 'Search',
-            ),
+            // NavigationDestination(
+            //   icon: Icon(
+            //     Icons.search_rounded, 
+            //     color: theme.colorScheme.onSurface.withOpacity(0.5)
+            //   ),
+            //   selectedIcon: Icon(
+            //     Icons.search_rounded, 
+            //     color: theme.colorScheme.primary,
+            //     size: 26,
+            //   ),
+            //   label: 'Search',
+            // ),
             NavigationDestination(
               icon: Icon(
                 Icons.favorite_outline_rounded, 
