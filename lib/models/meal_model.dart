@@ -17,7 +17,7 @@ class Meal {
   final String? instructions;
   final String? tags;
   final String? youtubeUrl;
-  final List<IngredientMeasure> ingredients;
+  final List<IngredientMeasure>? ingredients;
 
   const Meal({
     required this.id,
@@ -28,7 +28,7 @@ class Meal {
     this.instructions,
     this.tags,
     this.youtubeUrl,
-    required this.ingredients,
+     this.ingredients,
   });
 
   factory Meal.fromJson(Map<String, dynamic> json) {
